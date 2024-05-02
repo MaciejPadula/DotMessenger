@@ -5,18 +5,6 @@ using ExampleConsoleInMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var serviceCollection = new ServiceCollection();
-serviceCollection.AddMessenger(opt =>
-{
-    opt.MessagePoolingDelay = TimeSpan.FromSeconds(1)
-});
-
-serviceCollection.AddMessengerHostedService<Message>((message, _) =>
-{
-    Console.WriteLine($"Message from memory {message?.Content}");
-    return Task.CompletedTask;
-});
-
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(s => s
         .AddMessenger()
