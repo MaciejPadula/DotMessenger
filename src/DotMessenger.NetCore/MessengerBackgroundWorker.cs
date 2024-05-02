@@ -6,11 +6,11 @@ public class MessengerBackgroundWorker<TMessage> : IHostedService
     where TMessage : IMessage
 {
     private readonly IMessenger _messenger;
-    private readonly Func<TMessage?, CancellationToken, Task> _action;
+    private readonly Func<TMessage, CancellationToken, Task> _action;
 
     public MessengerBackgroundWorker(
         IMessenger messenger,
-        Func<TMessage?, CancellationToken, Task> action)
+        Func<TMessage, CancellationToken, Task> action)
     {
         _messenger = messenger;
         _action = action;

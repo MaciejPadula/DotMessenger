@@ -16,7 +16,7 @@ internal class DefaultMessenger : IMessenger
     }
 
     public async Task ReceiveMessages<TMessage>(
-        Func<TMessage?, CancellationToken, Task> action,
+        Func<TMessage, CancellationToken, Task> action,
         CancellationToken cancellationToken)
         where TMessage : IMessage
     {
@@ -24,7 +24,10 @@ internal class DefaultMessenger : IMessenger
         while (!cancellationToken.IsCancellationRequested)
         {
             var message = await client.Pop(cancellationToken);
-            await action(message, cancellationToken);
+            if (message is not null)
+            {
+                await action(message, cancellationToken);
+            }
             await Task.Delay(_config.MessagePoolingDelay, cancellationToken);
         }
     }

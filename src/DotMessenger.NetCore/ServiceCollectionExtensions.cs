@@ -4,9 +4,9 @@ namespace DotMessenger.NetCore;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMessengerBackgroundWorker<TMessage>(
+    public static IServiceCollection AddMessengerHostedService<TMessage>(
         this IServiceCollection services,
-        Func<TMessage?, CancellationToken, Task> action) 
+        Func<TMessage, CancellationToken, Task> action) 
             where TMessage : IMessage
     {
         services.AddHostedService(sp =>

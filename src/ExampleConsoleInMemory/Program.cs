@@ -5,6 +5,18 @@ using ExampleConsoleInMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+var serviceCollection = new ServiceCollection();
+serviceCollection.AddMessenger(opt =>
+{
+    opt.MessagePoolingDelay = TimeSpan.FromSeconds(1)
+});
+
+serviceCollection.AddMessengerHostedService<Message>((message, _) =>
+{
+    Console.WriteLine($"Message from memory {message?.Content}");
+    return Task.CompletedTask;
+});
+
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(s => s
         .AddMessenger()
@@ -15,12 +27,12 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
             opt.QueueName = "some-queue";
             opt.CreateQueueIfNotExists = true;
         })
-        .AddMessengerBackgroundWorker<Message>((message, _) =>
+        .AddMessengerHostedService<Message>((message, _) =>
         {
             Console.WriteLine($"Message from memory {message?.Content}");
             return Task.CompletedTask;
         })
-        .AddMessengerBackgroundWorker<AzMessage>((message, _) =>
+        .AddMessengerHostedService<AzMessage>((message, _) =>
         {
             Console.WriteLine($"Message from azure: {message?.Body}");
             return Task.CompletedTask;
