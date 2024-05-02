@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger", "DotMessenger\DotMessenger.csproj", "{26A3454C-DE0E-4A69-A684-E979A8A5C57E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{ABC2CAFB-5265-4C9D-BE18-46A34AD91E7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.InMemory", "DotMessenger.InMemory\DotMessenger.InMemory.csproj", "{6C0F7BBB-CCBE-48C4-A25C-8F2FBEA60802}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleConsoleInMemory", "ExampleConsoleInMemory\ExampleConsoleInMemory.csproj", "{F0DA39C9-2111-4278-9B0C-0BD10A297392}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.NetCore", "DotMessenger.NetCore\DotMessenger.NetCore.csproj", "{67B2BA6B-DF5D-4FDD-BE92-556901A35277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMessenger.AzureStorageQueue", "DotMessenger.AzureStorageQueue\DotMessenger.AzureStorageQueue.csproj", "{DEE76AD1-9C30-418C-9624-99D9FCA80189}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26A3454C-DE0E-4A69-A684-E979A8A5C57E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26A3454C-DE0E-4A69-A684-E979A8A5C57E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26A3454C-DE0E-4A69-A684-E979A8A5C57E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26A3454C-DE0E-4A69-A684-E979A8A5C57E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0F7BBB-CCBE-48C4-A25C-8F2FBEA60802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0F7BBB-CCBE-48C4-A25C-8F2FBEA60802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0F7BBB-CCBE-48C4-A25C-8F2FBEA60802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0F7BBB-CCBE-48C4-A25C-8F2FBEA60802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0DA39C9-2111-4278-9B0C-0BD10A297392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0DA39C9-2111-4278-9B0C-0BD10A297392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0DA39C9-2111-4278-9B0C-0BD10A297392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0DA39C9-2111-4278-9B0C-0BD10A297392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B2BA6B-DF5D-4FDD-BE92-556901A35277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B2BA6B-DF5D-4FDD-BE92-556901A35277}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B2BA6B-DF5D-4FDD-BE92-556901A35277}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B2BA6B-DF5D-4FDD-BE92-556901A35277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE76AD1-9C30-418C-9624-99D9FCA80189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE76AD1-9C30-418C-9624-99D9FCA80189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE76AD1-9C30-418C-9624-99D9FCA80189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE76AD1-9C30-418C-9624-99D9FCA80189}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F0DA39C9-2111-4278-9B0C-0BD10A297392} = {ABC2CAFB-5265-4C9D-BE18-46A34AD91E7F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9178509B-A3F3-4687-8C39-8ACAC26FF364}
+	EndGlobalSection
+EndGlobal
