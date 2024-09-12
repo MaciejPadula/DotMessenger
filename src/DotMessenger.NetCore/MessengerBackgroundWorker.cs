@@ -2,28 +2,16 @@
 
 namespace DotMessenger.NetCore;
 
-public class MessengerBackgroundWorker<TMessage> : IHostedService
+public abstract class MessengerBackgroundWorker<TMessage>(IMessenger messenger) : BackgroundService
     where TMessage : IMessage
 {
-    private readonly IMessenger _messenger;
-    private readonly Func<TMessage, CancellationToken, Task> _action;
-
-    public MessengerBackgroundWorker(
-        IMessenger messenger,
-        Func<TMessage, CancellationToken, Task> action)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _messenger = messenger;
-        _action = action;
+        await foreach (var @event in messenger.MessageStream<TMessage>(stoppingToken))
+        {
+            await HandleEvent(@event, stoppingToken);
+        }
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _messenger.ReceiveMessages(_action, cancellationToken);
-        return Task.CompletedTask;
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
+    protected abstract Task HandleEvent(TMessage message, CancellationToken cancellationToken = default);
 }

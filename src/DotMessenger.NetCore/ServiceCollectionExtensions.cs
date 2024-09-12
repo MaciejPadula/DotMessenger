@@ -6,13 +6,13 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMessengerHostedService<TMessage>(
         this IServiceCollection services,
-        Func<TMessage, CancellationToken, Task> action) 
-            where TMessage : IMessage
+        Func<TMessage, CancellationToken, Task> action) where TMessage : IMessage
     {
         services.AddHostedService(sp =>
-            new MessengerBackgroundWorker<TMessage>(
+            new MessengerFunctionBackgroundWorker<TMessage>(
                 sp.GetRequiredService<IMessenger>(),
                 action));
+
         return services;
     }
 }

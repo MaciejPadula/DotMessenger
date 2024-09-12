@@ -9,11 +9,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAzureStorageQueue<TMessage>(
         this IServiceCollection services,
-        Action<QueueConfiguration<TMessage>> configuration)
-            where TMessage : IMessage
+        Action<AzureQueueConfiguration<TMessage>>? configFactory = null) where TMessage : IMessage
     {
-        var config = new QueueConfiguration<TMessage>();
-        configuration(config);
+        var config = new AzureQueueConfiguration<TMessage>();
+        configFactory?.Invoke(config);
 
         services.AddSingleton(_ => config);
         services.TryAddTransient<IQueueClientFactory, QueueClientFactory>();

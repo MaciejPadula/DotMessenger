@@ -1,4 +1,5 @@
-﻿namespace DotMessenger.Logic;
+﻿
+namespace DotMessenger.Logic;
 
 internal abstract class QueueClientBase<TMessage> : IQueueClient<TMessage>
     where TMessage : IMessage
@@ -7,6 +8,8 @@ internal abstract class QueueClientBase<TMessage> : IQueueClient<TMessage>
         message is TMessage;
 
     public abstract void Dispose();
+
+    public abstract IAsyncEnumerable<TMessage> MessageStream(CancellationToken cancellationToken);
 
     public abstract Task<TMessage?> Peek(CancellationToken cancellationToken);
 
