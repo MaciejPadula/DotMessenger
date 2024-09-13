@@ -1,17 +1,20 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.Json;
+﻿using DotMessenger.AzureStorageQueue.Configuration;
+using DotMessenger.AzureStorageQueue.Infrastructure;
+using DotMessenger.Contract;
 using DotMessenger.Logic;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace DotMessenger.AzureStorageQueue;
 
 internal class AzureStorageQueueClient<TMessage>(
-    IQueueClientFactory queueClientFactory,
+    IQueueClientProvider<TMessage> queueClientFactory,
     AzureQueueConfiguration<TMessage> configuration) : QueueClientBase<TMessage>, IQueueClient<TMessage>
     where TMessage : IMessage
 {
     public async override Task<TMessage?> Peek(CancellationToken cancellationToken)
     {
-        var client = queueClientFactory.GetQueueClient(configuration);
+        var client = await queueClientFactory.GetQueueClient();
         var message = await client.ReceiveMessageAsync(
             cancellationToken: cancellationToken);
 
@@ -25,7 +28,7 @@ internal class AzureStorageQueueClient<TMessage>(
 
     public override async Task<TMessage?> Pop(CancellationToken cancellationToken)
     {
-        var client = queueClientFactory.GetQueueClient(configuration);
+        var client = await queueClientFactory.GetQueueClient();
         var message = await client.ReceiveMessageAsync(
             cancellationToken: cancellationToken);
 
@@ -46,7 +49,7 @@ internal class AzureStorageQueueClient<TMessage>(
 
     public override async Task Push(TMessage message, CancellationToken cancellationToken)
     {
-        var client = queueClientFactory.GetQueueClient(configuration);
+        var client = await queueClientFactory.GetQueueClient();
         await client.SendMessageAsync(
             JsonSerializer.Serialize(message),
             cancellationToken);
@@ -66,8 +69,5 @@ internal class AzureStorageQueueClient<TMessage>(
                 await Task.Delay(configuration.MessagePoolingDelay, cancellationToken);
             }
         }
-
     }
-
-    public override void Dispose() { }
 }

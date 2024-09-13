@@ -1,9 +1,11 @@
 ﻿using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+using DotMessenger.Contract;
 using DotMessenger.Logic;
 
 namespace DotMessenger.InMemory;
 
-internal class InMemoryQueueClient<TMessage>(InMemoryQueueConfiguration queueConfiguration) : QueueClientBase<TMessage>, IQueueClient<TMessage>
+internal class InMemoryQueueClient<TMessage>(InMemoryQueueConfiguration<TMessage> queueConfiguration) : QueueClientBase<TMessage>, IQueueClient<TMessage>
     where TMessage : IMessage
 {
     private readonly TimeSpan StreamTimeout = queueConfiguration.MessagePoolingDelay;
@@ -27,7 +29,7 @@ internal class InMemoryQueueClient<TMessage>(InMemoryQueueConfiguration queueCon
         return Task.CompletedTask;
     }
 
-    public override async IAsyncEnumerable<TMessage> MessageStream(CancellationToken cancellationToken)
+    public override async IAsyncEnumerable<TMessage> MessageStream([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -42,6 +44,4 @@ internal class InMemoryQueueClient<TMessage>(InMemoryQueueConfiguration queueCon
             }
         }
     }
-
-    public override void Dispose() { }
 }

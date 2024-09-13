@@ -2,4 +2,4 @@
 
 namespace ExampleConsoleInMemory;
 
-internal record Message(string Content) : IMessage;
+internal record EventHubMessage(string SomeBody) : IMessage;

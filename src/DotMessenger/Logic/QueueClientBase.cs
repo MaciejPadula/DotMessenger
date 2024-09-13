@@ -1,4 +1,6 @@
 ﻿
+using DotMessenger.Contract;
+
 namespace DotMessenger.Logic;
 
 internal abstract class QueueClientBase<TMessage> : IQueueClient<TMessage>
@@ -6,8 +8,6 @@ internal abstract class QueueClientBase<TMessage> : IQueueClient<TMessage>
 {
     public bool CanHandleMessage(IMessage message) =>
         message is TMessage;
-
-    public abstract void Dispose();
 
     public abstract IAsyncEnumerable<TMessage> MessageStream(CancellationToken cancellationToken);
 

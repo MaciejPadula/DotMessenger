@@ -1,4 +1,6 @@
-﻿namespace DotMessenger;
+﻿using DotMessenger.Contract;
+
+namespace DotMessenger;
 
 public interface IMessenger
 {

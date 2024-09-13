@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DotMessenger.Contract;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotMessenger.NetCore;
 

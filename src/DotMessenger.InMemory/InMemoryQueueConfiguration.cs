@@ -1,6 +1,8 @@
-﻿namespace DotMessenger.InMemory;
+﻿using DotMessenger.Contract;
 
-public class InMemoryQueueConfiguration
+namespace DotMessenger.InMemory;
+
+public class InMemoryQueueConfiguration<TMessage> where TMessage : IMessage
 {
     internal InMemoryQueueConfiguration() { }
 

@@ -1,4 +1,4 @@
-﻿using DotMessenger;
+﻿using DotMessenger.Contract;
 
 namespace ExampleConsoleInMemory;
 

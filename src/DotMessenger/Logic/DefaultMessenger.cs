@@ -1,23 +1,25 @@
-﻿namespace DotMessenger.Logic;
+﻿using DotMessenger.Contract;
+
+namespace DotMessenger.Logic;
 
 internal class DefaultMessenger(IEnumerable<IQueueClient> queueClients) : IMessenger
 {
     public async Task Push<TMessage>(TMessage message, CancellationToken cancellationToken)
         where TMessage : IMessage
     {
-        using var client = GetClient<TMessage>();
+        var client = GetClient<TMessage>();
         await client.Push(message, cancellationToken);
     }
 
     public async Task<TMessage?> Pop<TMessage>(CancellationToken cancellationToken = default) where TMessage : IMessage
     {
-        using var client = GetClient<TMessage>();
+        var client = GetClient<TMessage>();
         return await client.Pop(cancellationToken);
     }
 
     public IAsyncEnumerable<TMessage> MessageStream<TMessage>(CancellationToken cancellationToken = default) where TMessage : IMessage
     {
-        using var client = GetClient<TMessage>();
+        var client = GetClient<TMessage>();
         return client.MessageStream(cancellationToken);
     }
 
