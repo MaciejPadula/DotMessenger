@@ -5,10 +5,13 @@ namespace DotMessenger.InMemory;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddInMemoryQueue<TMessage>(this IServiceCollection services)
+    public static IServiceCollection AddInMemoryQueue<TMessage>(this IServiceCollection services, Action<InMemoryQueueConfiguration>? configFactory = null)
         where TMessage : IMessage
     {
-        services.AddSingleton<IQueueClient, InMemoryQueueClient<TMessage>>();
+        var config = new InMemoryQueueConfiguration();
+        configFactory?.Invoke(config);
+
+        services.AddSingleton<IQueueClient>(_ => new InMemoryQueueClient<TMessage>(config));
         return services;
     }
 }

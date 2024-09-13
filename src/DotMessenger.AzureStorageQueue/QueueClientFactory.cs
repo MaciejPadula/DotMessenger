@@ -4,13 +4,13 @@ namespace DotMessenger.AzureStorageQueue;
 
 internal interface IQueueClientFactory
 {
-    QueueClient GetQueueClient<TMessage>(QueueConfiguration<TMessage> queueConfiguration)
+    QueueClient GetQueueClient<TMessage>(AzureQueueConfiguration<TMessage> queueConfiguration)
         where TMessage : IMessage;
 }
 
 internal class QueueClientFactory : IQueueClientFactory
 {
-    public QueueClient GetQueueClient<TMessage>(QueueConfiguration<TMessage> queueConfiguration)
+    public QueueClient GetQueueClient<TMessage>(AzureQueueConfiguration<TMessage> queueConfiguration)
         where TMessage : IMessage
     {
         var client = new QueueClient(

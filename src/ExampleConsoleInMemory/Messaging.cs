@@ -3,38 +3,18 @@ using Microsoft.Extensions.Hosting;
 
 namespace ExampleConsoleInMemory;
 
-internal class Messaging : IHostedService
+internal class Messaging(IMessenger messenger, IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
-    private readonly IMessenger _messenger;
-    private readonly IHostApplicationLifetime _hostApplicationLifetime;
-
-    public Messaging(
-        IMessenger messenger,
-        IHostApplicationLifetime hostApplicationLifetime)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _messenger = messenger;
-        _hostApplicationLifetime = hostApplicationLifetime;
-    }
+        await messenger.Push(new Message("Hello, World!"), stoppingToken);
+        await messenger.Push(new AzMessage("Hello, World!"), stoppingToken);
+        await Task.Delay(5000, stoppingToken);
 
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        Task.Run(async () =>
-        {
-            await _messenger.Push(new Message { Content = "Hello, World!" }, cancellationToken);
-            await _messenger.Push(new AzMessage { Body = "Hello, World!" }, cancellationToken);
-            await Task.Delay(1000, cancellationToken);
-            await _messenger.Push(new Message { Content = "Goodbye, World!" }, cancellationToken);
-            await _messenger.Push(new AzMessage { Body = "Goodbye, World!" }, cancellationToken);
-            await Task.Delay(5000, cancellationToken);
+        await messenger.Push(new Message("Goodbye, World!"), stoppingToken);
+        await messenger.Push(new AzMessage("Goodbye, World!"), stoppingToken);
+        await Task.Delay(5000, stoppingToken);
 
-            _hostApplicationLifetime.StopApplication();
-        }, cancellationToken);
-
-        return Task.CompletedTask;
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
+        hostApplicationLifetime.StopApplication();
     }
 }
