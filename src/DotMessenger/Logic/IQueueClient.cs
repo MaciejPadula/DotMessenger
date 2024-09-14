@@ -2,10 +2,7 @@
 
 namespace DotMessenger.Logic;
 
-internal interface IQueueClient
-{
-    bool CanHandleMessage(IMessage message);
-}
+public interface IQueueClient { }
 
 internal interface IQueueClient<TMessage> : IQueueClient
     where TMessage : IMessage

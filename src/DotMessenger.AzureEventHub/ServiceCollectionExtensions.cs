@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton(config);
         services.AddClientFactory(config);
+        services.AddSingleton<IOffsetRepository<TMessage>, OffsetRepository<TMessage>>();
         services.AddTransient<IQueueClient, AzureEventHubQueueClient<TMessage>>();
         return services;
     }

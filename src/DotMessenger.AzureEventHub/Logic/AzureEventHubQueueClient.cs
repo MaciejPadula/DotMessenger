@@ -1,32 +1,38 @@
-﻿using Azure.Messaging.EventHubs.Consumer;
-using DotMessenger.AzureEventHub.Configuration;
+﻿using DotMessenger.AzureEventHub.Configuration;
+using DotMessenger.AzureEventHub.Extensions;
 using DotMessenger.AzureEventHub.Infrastructure;
 using DotMessenger.Contract;
 using DotMessenger.Logic;
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace DotMessenger.AzureEventHub.Logic;
 
 internal class AzureEventHubQueueClient<TMessage>(
     IAzureEventHubClientFactory<TMessage> azureEventHubClientFactory,
     IEventDataHelper eventDataHelper,
-    AzureEventHubConfiguration<TMessage> configuration) : QueueClientBase<TMessage>, IQueueClient<TMessage> where TMessage : IMessage
+    IOffsetRepository<TMessage> offsetRepository,
+    AzureEventHubConfiguration<TMessage> configuration) : IQueueClient<TMessage> where TMessage : IMessage
 {
-    public override async IAsyncEnumerable<TMessage> MessageStream([EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<TMessage> MessageStream([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         await using var client = azureEventHubClientFactory.CreateConsumerClient();
-        await client.LoadOffsets<TMessage>(cancellationToken);
+        await offsetRepository.LoadOffsets(client, cancellationToken);
 
-        await foreach (var partitionEvent in client.ReadEventsAsync(cancellationToken))
+        var partitionIds = await client.GetPartitionIdsAsync(cancellationToken);
+
+        var partitionReaders = partitionIds
+            .Where(x => configuration.PartitionIdsToConnect.Count == 0 || configuration.PartitionIdsToConnect.Contains(x))
+            .Select(partitionId => client
+                .ReadEventsFromPartitionAsync(
+                    partitionId,
+                    offsetRepository.GetPartitionPosition(partitionId),
+                    cancellationToken))
+            .Select(x => x.GetAsyncEnumerator())
+            .ToList()
+            .Merge(cancellationToken);
+
+        await foreach (var partitionEvent in partitionReaders)
         {
-            if (OffsetRepository<TMessage>.Offsets.TryGetValue(partitionEvent.Partition.PartitionId, out var offset)
-                && partitionEvent.Data.Offset <= offset)
-            {
-                continue;
-            }
-
             var deserializedEvent = eventDataHelper.ReadEventData<TMessage>(partitionEvent.Data);
             if (deserializedEvent is not null)
             {
@@ -39,10 +45,9 @@ internal class AzureEventHubQueueClient<TMessage>(
         }
     }
 
-    public override Task<TMessage?> Peek(CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+    public Task<TMessage?> Peek(CancellationToken cancellationToken) => throw new NotImplementedException();
 
-    public override async Task<TMessage?> Pop(CancellationToken cancellationToken)
+    public async Task<TMessage?> Pop(CancellationToken cancellationToken)
     {
         await foreach (var item in MessageStream(cancellationToken))
         {
@@ -52,7 +57,7 @@ internal class AzureEventHubQueueClient<TMessage>(
         return default;
     }
 
-    public override async Task Push(TMessage message, CancellationToken cancellationToken)
+    public async Task Push(TMessage message, CancellationToken cancellationToken)
     {
         await PushMultiple([message], cancellationToken);
     }
