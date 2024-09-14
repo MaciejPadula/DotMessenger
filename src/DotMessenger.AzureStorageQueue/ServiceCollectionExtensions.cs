@@ -26,9 +26,9 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddClientFactory<TMessage>(
         this IServiceCollection services,
         AzureQueueConfiguration<TMessage> config) where TMessage : IMessage => config.AzureQueueConnectionType switch
-        {
-            AzureQueueConnectionType.ConnectionString => services.AddTransient<IQueueClientFactory<TMessage>, ConnectionStringQueueClientFactory<TMessage>>(),
-            AzureQueueConnectionType.Identity => services.AddTransient<IQueueClientFactory<TMessage>, CredentialsQueueClientFactory<TMessage>>(),
-            _ => throw new ArgumentOutOfRangeException(nameof(config.AzureQueueConnectionType))
-        };
+    {
+        AzureQueueConnectionType.ConnectionString => services.AddTransient<IQueueClientFactory<TMessage>, ConnectionStringQueueClientFactory<TMessage>>(),
+        AzureQueueConnectionType.Identity => services.AddTransient<IQueueClientFactory<TMessage>, CredentialsQueueClientFactory<TMessage>>(),
+        _ => throw new ArgumentOutOfRangeException(nameof(config.AzureQueueConnectionType))
+    };
 }

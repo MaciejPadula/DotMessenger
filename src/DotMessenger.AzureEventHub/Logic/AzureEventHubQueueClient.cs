@@ -38,10 +38,6 @@ internal class AzureEventHubQueueClient<TMessage>(
             {
                 yield return deserializedEvent;
             }
-            else
-            {
-                await Task.Delay(configuration.MessagePoolingDelay, cancellationToken);
-            }
         }
     }
 

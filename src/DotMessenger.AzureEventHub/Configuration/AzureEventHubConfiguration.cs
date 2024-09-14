@@ -12,5 +12,4 @@ public class AzureEventHubConfiguration<TMessage> where TMessage : IMessage
     public string EventHubName { get; set; } = string.Empty;
     public string ConsumerGroup { get; set; } = string.Empty;
     public HashSet<string> PartitionIdsToConnect { get; set; } = [];
-    public TimeSpan MessagePoolingDelay { get; set; } = TimeSpan.FromSeconds(1);
 }

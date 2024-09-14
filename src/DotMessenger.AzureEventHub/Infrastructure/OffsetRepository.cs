@@ -17,7 +17,7 @@ internal class OffsetRepository<TMessage> : IOffsetRepository<TMessage> where TM
     public EventPosition GetPartitionPosition(string partitionId)
     {
         var offset = _offsets.TryGetValue(partitionId, out var value) ? value : 0;
-        var shouldIncludeLastOffsetedElement = offset != 0;
+        var shouldIncludeLastOffsetedElement = offset == 0;
         return EventPosition.FromOffset(
             offset,
             shouldIncludeLastOffsetedElement);

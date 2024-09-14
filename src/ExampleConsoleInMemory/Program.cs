@@ -23,13 +23,12 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
             opt.CreateQueueIfNotExists = true;
             opt.MessagePoolingDelay = TimeSpan.FromSeconds(1);
         })
-        .AddEventHubQueue<EventHubMessage>(opt =>
+        .AddAzureEventHubQueue<EventHubMessage>(opt =>
         {
             opt.EventHubConnectionType = EventHubConnectionType.ConnectionString;
             opt.ConnectionString = "Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;";
             opt.EventHubName = "eh1";
             opt.ConsumerGroup = "cg1";
-            opt.MessagePoolingDelay = TimeSpan.FromSeconds(1);
         })
         .AddMessengerHostedService<Message>((message, _) =>
         {

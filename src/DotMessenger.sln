@@ -15,19 +15,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.NetCore", "Dot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.AzureStorageQueue", "DotMessenger.AzureStorageQueue\DotMessenger.AzureStorageQueue.csproj", "{DEE76AD1-9C30-418C-9624-99D9FCA80189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMessenger.AzureEventHub", "DotMessenger.AzureEventHub\DotMessenger.AzureEventHub.csproj", "{E71F7752-F0BB-4EDC-836C-9CD709B68E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.AzureEventHub", "DotMessenger.AzureEventHub\DotMessenger.AzureEventHub.csproj", "{E71F7752-F0BB-4EDC-836C-9CD709B68E88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F63B1EC5-4927-4AE2-AD20-F53F5C64BFEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMessenger.AzureEventHub.Tests", "DotMessenger.AzureEventHub.Tests\DotMessenger.AzureEventHub.Tests.csproj", "{B9ECF011-EB86-4767-B774-885A9D7E8D49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.AzureEventHub.Tests", "DotMessenger.AzureEventHub.Tests\DotMessenger.AzureEventHub.Tests.csproj", "{B9ECF011-EB86-4767-B774-885A9D7E8D49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMessenger.Contract", "DotMessenger.Contract\DotMessenger.Contract.csproj", "{3D163AFE-5624-406E-B837-FB77CBBEAEE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotMessenger.Contract", "DotMessenger.Contract\DotMessenger.Contract.csproj", "{3D163AFE-5624-406E-B837-FB77CBBEAEE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queues", "Queues", "{5A882D75-95FA-40FA-A595-4C996ACB062D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlatformSpecific", "PlatformSpecific", "{DE1D995C-0F4B-431F-B41A-FF759F4FEBE1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{A72F5B02-3069-428C-99CC-04B684939946}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C423D4E-10B7-4DDB-8EBA-1573AD7F42DE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
