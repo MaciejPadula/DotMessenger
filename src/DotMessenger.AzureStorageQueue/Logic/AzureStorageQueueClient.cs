@@ -5,7 +5,7 @@ using DotMessenger.Logic;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-namespace DotMessenger.AzureStorageQueue;
+namespace DotMessenger.AzureStorageQueue.Logic;
 
 internal class AzureStorageQueueClient<TMessage>(
     IQueueClientProvider<TMessage> queueClientFactory,

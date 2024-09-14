@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotMessenger.AzureCore", "DotMessenger.AzureCore\DotMessenger.AzureCore.csproj", "{E22B7659-BC62-48B3-AF61-EC9D91F7E64C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{3D163AFE-5624-406E-B837-FB77CBBEAEE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D163AFE-5624-406E-B837-FB77CBBEAEE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D163AFE-5624-406E-B837-FB77CBBEAEE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E22B7659-BC62-48B3-AF61-EC9D91F7E64C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22B7659-BC62-48B3-AF61-EC9D91F7E64C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22B7659-BC62-48B3-AF61-EC9D91F7E64C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22B7659-BC62-48B3-AF61-EC9D91F7E64C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{E71F7752-F0BB-4EDC-836C-9CD709B68E88} = {A72F5B02-3069-428C-99CC-04B684939946}
 		{B9ECF011-EB86-4767-B774-885A9D7E8D49} = {F63B1EC5-4927-4AE2-AD20-F53F5C64BFEE}
 		{A72F5B02-3069-428C-99CC-04B684939946} = {5A882D75-95FA-40FA-A595-4C996ACB062D}
+		{E22B7659-BC62-48B3-AF61-EC9D91F7E64C} = {A72F5B02-3069-428C-99CC-04B684939946}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9178509B-A3F3-4687-8C39-8ACAC26FF364}

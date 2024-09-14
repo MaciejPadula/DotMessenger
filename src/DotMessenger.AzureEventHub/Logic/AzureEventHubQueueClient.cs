@@ -1,27 +1,30 @@
-﻿using DotMessenger.AzureEventHub.Configuration;
+﻿using Azure.Messaging.EventHubs.Consumer;
+using Azure.Messaging.EventHubs.Producer;
+using DotMessenger.AzureEventHub.Configuration;
 using DotMessenger.AzureEventHub.Extensions;
 using DotMessenger.AzureEventHub.Infrastructure;
 using DotMessenger.Contract;
 using DotMessenger.Logic;
+using Microsoft.Extensions.Azure;
 using System.Runtime.CompilerServices;
 
 namespace DotMessenger.AzureEventHub.Logic;
 
 internal class AzureEventHubQueueClient<TMessage>(
-    IAzureEventHubClientFactory<TMessage> azureEventHubClientFactory,
+    IAzureClientFactory<EventHubConsumerClient> consumerFactory,
+    IAzureClientFactory<EventHubProducerClient> producerFactory,
     IEventDataHelper eventDataHelper,
     IOffsetRepository<TMessage> offsetRepository,
     AzureEventHubConfiguration<TMessage> configuration) : IQueueClient<TMessage> where TMessage : IMessage
 {
     public async IAsyncEnumerable<TMessage> MessageStream([EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        await using var client = azureEventHubClientFactory.CreateConsumerClient();
+        var client = consumerFactory.CreateClient(configuration.ClientName);
         await offsetRepository.LoadOffsets(client, cancellationToken);
 
         var partitionIds = await client.GetPartitionIdsAsync(cancellationToken);
 
         var partitionReaders = partitionIds
-            .Where(x => configuration.PartitionIdsToConnect.Count == 0 || configuration.PartitionIdsToConnect.Contains(x))
             .Select(partitionId => client
                 .ReadEventsFromPartitionAsync(
                     partitionId,
@@ -60,7 +63,7 @@ internal class AzureEventHubQueueClient<TMessage>(
 
     private async Task PushMultiple(IEnumerable<TMessage> messages, CancellationToken cancellationToken)
     {
-        await using var producer = azureEventHubClientFactory.CreateProducerClient();
+        var producer = producerFactory.CreateClient(configuration.ClientName);
 
         using var eventBatch = await producer.CreateBatchAsync(cancellationToken);
 

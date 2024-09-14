@@ -1,8 +1,11 @@
-﻿using DotMessenger.AzureEventHub.Configuration;
+﻿using Azure.Identity;
+using DotMessenger.AzureCore;
+using DotMessenger.AzureEventHub.Configuration;
 using DotMessenger.AzureEventHub.Infrastructure;
 using DotMessenger.AzureEventHub.Logic;
 using DotMessenger.Contract;
 using DotMessenger.Logic;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,18 +24,39 @@ public static class ServiceCollectionExtensions
         services.TryAddTransient<IEventDataHelper, EventDataHelper>();
 
         services.AddSingleton(config);
-        services.AddClientFactory(config);
+
+        services.AddAzureClients(clientBuilder =>
+        {
+            if (config.AzureConnectionType == AzureConnectionType.ConnectionString)
+            {
+                clientBuilder
+                    .AddEventHubConsumerClient(config.ConsumerGroup, config.ConnectionString, config.EventHubName)
+                    .WithName(config.ClientName);
+
+                clientBuilder
+                    .AddEventHubProducerClient(config.ConnectionString, config.EventHubName)
+                    .WithName(config.ClientName);
+            }
+            else if (config.AzureConnectionType == AzureConnectionType.Identity)
+            {
+                clientBuilder
+                    .AddEventHubConsumerClientWithNamespace(config.ConsumerGroup, config.FullyQualifiedNamespace, config.EventHubName)
+                    .WithName(config.ClientName);
+
+                clientBuilder
+                   .AddEventHubProducerClientWithNamespace(config.FullyQualifiedNamespace, config.EventHubName)
+                   .WithName(config.ClientName);
+
+                clientBuilder.UseCredential(new DefaultAzureCredential());
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(config.AzureConnectionType));
+            }
+        });
+
         services.AddSingleton<IOffsetRepository<TMessage>, OffsetRepository<TMessage>>();
         services.AddTransient<IQueueClient, AzureEventHubQueueClient<TMessage>>();
         return services;
     }
-
-    private static IServiceCollection AddClientFactory<TMessage>(
-        this IServiceCollection services,
-        AzureEventHubConfiguration<TMessage> config) where TMessage : IMessage => config.EventHubConnectionType switch
-    {
-        EventHubConnectionType.ConnectionString => services.AddTransient<IAzureEventHubClientFactory<TMessage>, ConnectionStringAzureEventHubClientFactory<TMessage>>(),
-        EventHubConnectionType.Identity => services.AddTransient<IAzureEventHubClientFactory<TMessage>, CredentialsAzureEventHubClientFactory<TMessage>>(),
-        _ => throw new ArgumentOutOfRangeException(nameof(config.EventHubConnectionType))
-    };
 }

@@ -10,7 +10,7 @@ internal interface IOffsetRepository<TMessage>
     EventPosition GetPartitionPosition(string partitionId);
 }
 
-internal class OffsetRepository<TMessage> : IOffsetRepository<TMessage> where TMessage : IMessage
+internal class OffsetRepository<TMessage>() : IOffsetRepository<TMessage> where TMessage : IMessage
 {
     private readonly ConcurrentDictionary<string, long> _offsets = [];
 
