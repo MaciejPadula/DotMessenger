@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DotMessenger.Contract;
+using Microsoft.Extensions.Hosting;
 
 namespace DotMessenger.NetCore;
 

@@ -1,4 +1,6 @@
-﻿namespace DotMessenger.NetCore;
+﻿using DotMessenger.Contract;
+
+namespace DotMessenger.NetCore;
 
 internal class MessengerFunctionBackgroundWorker<TMessage>(
     IMessenger messenger,

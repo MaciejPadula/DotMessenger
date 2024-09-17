@@ -7,12 +7,16 @@ internal class Messaging(IMessenger messenger, IHostApplicationLifetime hostAppl
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        Console.WriteLine("==============================Sending first batch===============================");
         await messenger.Push(new Message("Hello, World!"), stoppingToken);
         await messenger.Push(new AzMessage("Hello, World!"), stoppingToken);
+        await messenger.Push(new EventHubMessage("Hello World!"), stoppingToken);
         await Task.Delay(5000, stoppingToken);
 
+        Console.WriteLine("==============================Sending second batch==============================");
         await messenger.Push(new Message("Goodbye, World!"), stoppingToken);
         await messenger.Push(new AzMessage("Goodbye, World!"), stoppingToken);
+        await messenger.Push(new EventHubMessage("Goodbye, World!"), stoppingToken);
         await Task.Delay(5000, stoppingToken);
 
         hostApplicationLifetime.StopApplication();

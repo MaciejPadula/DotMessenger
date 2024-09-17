@@ -1,11 +1,10 @@
-﻿namespace DotMessenger.Logic;
+﻿using DotMessenger.Contract;
 
-internal interface IQueueClient
-{
-    bool CanHandleMessage(IMessage message);
-}
+namespace DotMessenger.Logic;
 
-internal interface IQueueClient<TMessage> : IDisposable, IQueueClient
+public interface IQueueClient { }
+
+internal interface IQueueClient<TMessage> : IQueueClient
     where TMessage : IMessage
 {
     Task<TMessage?> Peek(CancellationToken cancellationToken = default);

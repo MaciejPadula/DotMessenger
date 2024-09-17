@@ -13,10 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DotMessenger.AzureEventHub\DotMessenger.AzureEventHub.csproj" />
     <ProjectReference Include="..\DotMessenger.AzureStorageQueue\DotMessenger.AzureStorageQueue.csproj" />
     <ProjectReference Include="..\DotMessenger.InMemory\DotMessenger.InMemory.csproj" />
     <ProjectReference Include="..\DotMessenger.NetCore\DotMessenger.NetCore.csproj" />
     <ProjectReference Include="..\DotMessenger\DotMessenger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Queues" Version="12.19.1" />
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.11.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DotMessenger.AzureCore\DotMessenger.AzureCore.csproj" />
     <ProjectReference Include="..\DotMessenger\DotMessenger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DotMessenger.AzureEventHub.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 
 </Project>
